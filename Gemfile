@@ -9,7 +9,7 @@ gem 'rails', '~> 5.2.4', '>= 5.2.4.2'
 gem 'bcrypt',         '3.1.12'
 gem 'sqlite3'
 gem 'pry-byebug'
-
+gem 'jquery-rails'
 gem 'rails-controller-testing'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
