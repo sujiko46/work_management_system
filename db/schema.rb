@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_25_065444) do
+ActiveRecord::Schema.define(version: 2020_05_27_065804) do
 
   create_table "users", force: :cascade do |t|
     t.string "name"
@@ -21,6 +21,15 @@ ActiveRecord::Schema.define(version: 2020_05_25_065444) do
     t.string "remember_digest"
     t.boolean "admin"
     t.index ["email"], name: "index_users_on_email", unique: true
+  end
+
+  create_table "worktimes", force: :cascade do |t|
+    t.integer "year"
+    t.integer "month"
+    t.datetime "in_time"
+    t.datetime "out_time"
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_worktimes_on_user_id"
   end
 
 end

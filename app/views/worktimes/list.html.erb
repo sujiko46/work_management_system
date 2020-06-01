@@ -1,0 +1,20 @@
+<% provide(:title, '月別勤務一覧') %>
+<h1>月別勤務一覧</h1>
+
+
+<table border="5">
+  <tr>
+    <th>勤務日</th>
+    <th>出勤時間</th>
+    <th>退勤時間</th>
+    <th>勤務時間</th>
+  </tr>
+  <% @works.each do |work| %>
+    <tr>
+      <td><%= work.in_time.strftime("%Y年%m月%d日") %></td>
+      <td><%= work.in_time.strftime("%I:%M %p") %></td>
+      <td><%= work.out_time.strftime("%I:%M %p") %></td>
+      <td><%= Time.at(work.out_time - work.in_time).utc.strftime('%X') %></td>
+    </tr>
+  <% end %>
+  </table>

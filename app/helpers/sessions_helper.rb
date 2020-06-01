@@ -1,15 +1,17 @@
 module SessionsHelper
-
+  # セッションハッシュのuser_idキーに入れる
   def log_in(user)
     session[:user_id] = user.id
   end
 
+  # クッキーからuserIDとトークンを読み出す
   def remember(user)
     user.remember
     cookies.permanent.signed[:user_id] = user.id
     cookies.permanent[:remember_token] = user.remember_token
   end
 
+  #ブラウザを閉じていた場合でも自動でログインする処理をクッキーを用いて実装
   def current_user
     if (user_id = session[:user_id])
       @current_user ||= User.find_by(id: user_id)
@@ -22,7 +24,7 @@ module SessionsHelper
     end
   end
 
-
+  #ユーザーがログイン前にアクセスしようとしていたページにログイン後にとばす
   def redirect_back_or(default)
     redirect_to(session[:forwarding_url] || default)
     session.delete(:forwarding_url)
@@ -32,7 +34,7 @@ module SessionsHelper
   def store_location
     session[:forwarding_url] = request.original_url if request.get?
   end
-
+  #ユーザーが変わっていないか確認
   def current_user?(user)
     user == current_user
   end
@@ -40,13 +42,13 @@ module SessionsHelper
   def logged_in?
     !current_user.nil?
   end
-
+  # クッキーからトークンを削除
   def forget(user)
     user.forget
     cookies.delete(:user_id)
     cookies.delete(:remember_token)
   end
-
+  # クッキーからトークンを削除した後セッションを終了（sessionのuserIDを削除）
   def log_out
     forget(current_user)
     session.delete(:user_id)

@@ -1,13 +1,13 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
-  before_action :correct_user,   only: [:edit, :update]
+  before_action :logged_in_user, only: [:list, :edit, :update, :destroy, :entry]
+  before_action :correct_user,   only: [:edit, :update, :entry]
   before_action :admin_user,     only: :destroy
 
   def index
     @users = User.paginate(page: params[:page])
   end
 
-  def show
+  def entry
     @user = User.find(params[:id])
   end
 
@@ -25,26 +25,10 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       log_in @user
-      flash[:success] = "Welcome to the Sample App!"
+      flash[:success] = "会員登録完了"
       redirect_to @user
-      # 保存の成功をここで扱う。
     else
       render 'new'
-    end
-  end
-
-  def edit
-    @user = User.find(params[:id])
-  end
-
-  def update
-    @user = User.find(params[:id])
-    if @user.update_attributes(user_params)
-      flash[:success] = "Profile updated"
-      redirect_to @user
-      # 更新に成功した場合を扱う。
-    else
-      render 'edit'
     end
   end
 
@@ -61,7 +45,7 @@ class UsersController < ApplicationController
   def logged_in_user
     unless logged_in?
       store_location
-      flash[:danger] = "Please log in."
+      flash[:danger] = "ログインしてください"
       redirect_to login_url
     end
   end
