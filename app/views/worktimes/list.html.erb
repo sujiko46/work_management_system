@@ -1,5 +1,6 @@
 <% provide(:title, '月別勤務一覧') %>
 <h1>月別勤務一覧</h1>
+<%="指定された年月の勤務記録はありません" if @works.empty? %>
 
 
 <table border="5">
