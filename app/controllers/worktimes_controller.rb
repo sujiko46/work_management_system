@@ -10,25 +10,22 @@ class WorktimesController < ApplicationController
   end
 
   def entry
-    @info = Worktime.find(params[:id])
   end
 
   def new
     #lastがnilの時の処理を書こう
-    @last_worktime = Worktime.find_by(user_id: session[:user_id],
+    last_worktime = Worktime.find_by(user_id: session[:user_id],
                                     year: Time.now.strftime("%Y"),
                                     month: Time.now.strftime("%m"),
                                     day: Time.now.strftime("%d"))
-    @today = Time.now.strftime("%Y年%m月%d日")
-    @yesterday = Time.now.yesterday
     #@last_worktime.nil?
-    if @last_worktime.nil? || @last_worktime.last.in_time.strftime("%Y年%m月%d日") != @today
-      @worktime = Worktime.new(user_id: session[:user_id],
+    if last_worktime.nil?
+      worktime = Worktime.new(user_id: session[:user_id],
                                in_time: Time.now,
                                year: Time.now.strftime("%Y"),
                                month: Time.now.strftime("%m"),
                                day: Time.now.strftime("%d"))
-      @worktime.save
+      worktime.save
       flash[:success] = '出勤時間を登録しました'
       redirect_to current_user
     else
@@ -43,16 +40,16 @@ class WorktimesController < ApplicationController
 
   def update
     #binding.pry
-    @worktime = Worktime.find_by(user_id: session[:user_id],
+    worktime = Worktime.find_by(user_id: session[:user_id],
                                year: Time.now.strftime("%Y"),
                                month: Time.now.strftime("%m"),
                                day: Time.now.strftime("%d"))
-    if @worktime.nil?
+    if worktime.nil?
       flash[:fail] = '先に出勤してください'
       redirect_to current_user
-    elsif @worktime.out_time.nil?
-      @worktime.out_time = Time.now
-      @worktime.save
+    elsif worktime.out_time.nil?
+      worktime.out_time = Time.now
+      worktime.save
       flash[:success] = '退勤時間を登録しました。お疲れさまでした'
       redirect_to current_user
     else
