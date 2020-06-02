@@ -9,10 +9,10 @@ Rails.application.routes.draw do
   delete '/logout',  to: 'sessions#destroy'
   post '/users/worktime/new', to: 'worktimes#new', as: 'intime'
   post '/users/worktime/update', to: 'worktimes#update', as: 'outtime'
-  get  '/users/:id', to: "users#entry"
+  get  '/users/:id', to: "users#entry", as: 'entry'
   post '/users/:id/history', to: 'worktimes#list', as: 'list'
   get '/users/:id/history', to: 'worktimes#history', as: 'history'
-  resources :users
+  resources :users, only: [:new, :create]
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

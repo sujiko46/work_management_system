@@ -27,10 +27,10 @@ class WorktimesController < ApplicationController
                                day: Time.now.strftime("%d"))
       worktime.save
       flash[:success] = '出勤時間を登録しました'
-      redirect_to current_user
+      redirect_to entry_path(current_user)
     else
       flash[:notice] = 'すでに本日分は登録済みです'
-      redirect_to current_user
+      redirect_to entry_path(current_user)
     end
 
     # 書き込み条件
@@ -51,10 +51,10 @@ class WorktimesController < ApplicationController
       worktime.out_time = Time.now
       worktime.save
       flash[:success] = '退勤時間を登録しました。お疲れさまでした'
-      redirect_to current_user
+      redirect_to entry_path(current_user)
     else
       flash[:notice] = 'すでに本日分は登録済みです'
-      redirect_to current_user
+      redirect_to entry_path(current_user)
     end
     # 書き込み条件
     # find（user_id: current_user.id）したデータのout_timeがnil
