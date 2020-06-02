@@ -1,12 +1,10 @@
 require 'date'
 class WorktimesController < ApplicationController
   def history
-    @works = Worktime.where(user_id: session[:user_id])
   end
 
   def list
-
-    @works = Worktime.where(user_id: session[:user_id], month: params[:worktime][:month], year: params[:worktime][:year])
+    @works = Worktime.list(session[:user_id], params[:worktime][:month], params[:worktime][:year])
     @month = params[:worktime][:month]
       #binding.pry
   end
@@ -16,17 +14,20 @@ class WorktimesController < ApplicationController
   end
 
   def new
-    #binding.pry
     #lastがnilの時の処理を書こう
-    @last_worktime = Worktime.where(user_id: session[:user_id])
+    @last_worktime = Worktime.find_by(user_id: session[:user_id],
+                                    year: Time.now.strftime("%Y"),
+                                    month: Time.now.strftime("%m"),
+                                    day: Time.now.strftime("%d"))
     @today = Time.now.strftime("%Y年%m月%d日")
-    if @last_worktime.empty?
-      @worktime = Worktime.new(user_id: session[:user_id], in_time: Time.now, year: Time.now.strftime("%Y"), month: Time.now.strftime("%m"))
-      @worktime.save
-      flash[:success] = '出勤時間を登録しました'
-      redirect_to current_user
-    elsif @last_worktime.last.in_time.strftime("%Y年%m月%d日") != @today
-      @worktime = Worktime.new(user_id: session[:user_id], in_time: Time.now, year: Time.now.strftime("%Y"), month: Time.now.strftime("%m"))
+    @yesterday = Time.now.yesterday
+    #@last_worktime.nil?
+    if @last_worktime.nil? || @last_worktime.last.in_time.strftime("%Y年%m月%d日") != @today
+      @worktime = Worktime.new(user_id: session[:user_id],
+                               in_time: Time.now,
+                               year: Time.now.strftime("%Y"),
+                               month: Time.now.strftime("%m"),
+                               day: Time.now.strftime("%d"))
       @worktime.save
       flash[:success] = '出勤時間を登録しました'
       redirect_to current_user
@@ -42,7 +43,10 @@ class WorktimesController < ApplicationController
 
   def update
     #binding.pry
-    @worktime = Worktime.where(user_id: session[:user_id]).last
+    @worktime = Worktime.find_by(user_id: session[:user_id],
+                               year: Time.now.strftime("%Y"),
+                               month: Time.now.strftime("%m"),
+                               day: Time.now.strftime("%d"))
     if @worktime.nil?
       flash[:fail] = '先に出勤してください'
       redirect_to current_user

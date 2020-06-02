@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 2020_05_27_065804) do
   create_table "worktimes", force: :cascade do |t|
     t.integer "year"
     t.integer "month"
+    t.integer "day"
     t.datetime "in_time"
     t.datetime "out_time"
     t.integer "user_id"
