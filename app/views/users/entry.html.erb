@@ -7,8 +7,8 @@
         <%= "ようこそ#{@user.name}さん" %>
         <%="現在時刻は" %><br>
         <%="#{Time.now}です"%>
-        <%= button_to "出勤", url: "/users/worktime/new", controller: "worktimes",action: "new"%>
-        <%= button_to "退勤", url: "/users/worktime/update", controller: "worktimes",action: "update"%>
+        <%= button_to "出勤", url: intime_path, controller: "worktimes",action: "new"%>
+        <%= button_to "退勤", url: outtime_path, controller: "worktimes",action: "update"%>
       </h1>
     </section>
   </aside>

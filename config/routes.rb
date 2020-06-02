@@ -7,8 +7,8 @@ Rails.application.routes.draw do
   get    '/login',   to: 'sessions#new'
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
-  post '/users/worktime/new', to: 'worktimes#new'
-  post '/users/worktime/update', to: 'worktimes#update'
+  post '/users/worktime/new', to: 'worktimes#new', as: 'intime'
+  post '/users/worktime/update', to: 'worktimes#update', as: 'outtime'
   get  '/users/:id', to: "users#entry"
   post '/users/:id/history', to: 'worktimes#list', as: 'list'
   get '/users/:id/history', to: 'worktimes#history', as: 'history'
