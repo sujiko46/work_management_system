@@ -14,8 +14,8 @@
     <tr>
       <td><%= work.in_time.strftime("%Y年%m月%d日") %></td>
       <td><%= work.in_time.strftime("%I:%M %p") %></td>
-      <td><%= work.out_time.strftime("%I:%M %p") %></td>
-      <td><%= Time.at(work.out_time - work.in_time).utc.strftime('%X') %></td>
+      <td><%= work.out_time.present? ? work.out_time.strftime("%I:%M %p") : work.out_time %></td>
+      <td><%= work.out_time.present? ? Time.at(work.out_time - work.in_time).utc.strftime('%X') : "退勤してください"%></td>
     </tr>
   <% end %>
   </table>
