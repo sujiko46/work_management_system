@@ -30,7 +30,7 @@ class UsersController < ApplicationController
     if @user.save
       log_in @user
       flash[:success] = "会員登録完了"
-      redirect_to @user
+      redirect_to entry_path(current_user)
     else
       render 'new'
     end
