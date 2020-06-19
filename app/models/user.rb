@@ -10,6 +10,9 @@ class User < ApplicationRecord
 
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+  validates :must_data, presence: true
+  validates :limited_data, presence: true, length: {minimum: 10, maximum: 100 }
+  validates :address_number, presence: true, format: { with: /\A[0-9]{7}\z/}
 
 
   def User.digest(string)

@@ -13,5 +13,14 @@
   <%= f.label :password_confirmation %>
   <%= f.password_field :password_confirmation, class: 'form-control' %>
 
+  <%= f.label "入力必須" %>
+  <%= f.text_field :must_data, class: 'form-control' %>
+
+  <%= f.label "10~100文字" %>
+  <%= f.text_field :limited_data, class: 'form-control' %>
+
+  <%= f.label "郵便番号（数字７桁）" %>
+  <%= f.text_field :address_number, class: 'form-control' %>
+
   <%= f.submit yield(:button_text), class: "btn btn-primary" %>
 <% end %>
